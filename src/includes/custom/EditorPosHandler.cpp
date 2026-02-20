@@ -1,4 +1,5 @@
 #include "EditorPosHandler.hpp"
+#include "Geode/cocos/layers_scenes_transitions_nodes/CCLayer.h"
 #include <Geode/Geode.hpp>
 #include <matjson.hpp>
 
@@ -26,6 +27,43 @@ void EditorPosHandler::createNewPosition(CCPoint newPoint, float zoomVal, std::s
     arr.push_back(entry);
 
     getMod()->setSavedValue(levelName, arr);
+}
+
+void EditorPosHandler::removePositionByIndex(int index, std::string levelName) {
+    auto savedPositions = getMod()->getSavedValue<matjson::Value>(levelName);
+
+    if (!savedPositions.isArray()) return;
+
+    auto arr = savedPositions.asArray().unwrap();
+
+    if (index < 0 || index >= (int)arr.size()) return;
+
+    arr.erase(arr.begin() + index);
+
+    getMod()->setSavedValue(levelName, matjson::Value(arr));
+}
+
+void EditorPosHandler::updatePositionName(int index, std::string newName, std::string levelName) {
+    auto savedPositions = getMod()->getSavedValue<matjson::Value>(levelName);
+
+    if (!savedPositions.isArray()) return;
+
+    auto arr = savedPositions.asArray().unwrap();
+
+    if (index < 0 || index >= (int)arr.size()) return;
+
+    arr[index]["name"] = newName;
+
+    getMod()->setSavedValue(levelName, matjson::Value(arr));
+}
+
+void EditorPosHandler::moveToPosition(int posIndex, std::string levelName, CCNode* batchLayer) {
+    auto positions = EditorPosHandler::getLevelPositions(levelName);
+
+    auto [name, pos, zoom] = positions[posIndex];
+
+    batchLayer->setScale(zoom);
+    batchLayer->setPosition(pos);
 }
 
 std::vector<std::tuple<std::string, CCPoint, float>> EditorPosHandler::getLevelPositions(std::string levelName) {

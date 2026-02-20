@@ -4,6 +4,7 @@
 #include <Geode/binding/EditorUI.hpp>
 #include <Geode/modify/EditorUI.hpp>
 #include "../custom/EditorPosHandler.hpp"
+#include "../custom/EditorPosCell.hpp"
 
 using namespace geode::prelude;
 
@@ -41,6 +42,15 @@ class $modify(BEPEditorUI, EditorUI) {
 
         auto positions = editorPosHandler.getLevelPositions(m_editorLayer->m_level->m_levelName);
 
-        log::debug("{}", positions);
+        std::size_t index = 0;
+        
+        for (auto& obj : positions) {
+            auto [name, pos, zoom] = positions[index];
+
+            auto newCell = EditorPosCell::create(name, index, m_editorLayer->m_level->m_levelName, m_editorLayer->getChildByID("main-node")->getChildByID("batch-layer"));
+            this->addChild(newCell);
+
+            ++index;
+        }
     };
 };
