@@ -32,7 +32,9 @@ protected:
         return true;
     }
 
-    void reloadList(LevelEditorLayer* lvlEditorLayer) {        
+    void reloadList(LevelEditorLayer* lvlEditorLayer) {       
+        scrollLayer->m_contentLayer->removeAllChildren();
+
         EditorPosHandler editorPosHandler;
         auto positions = editorPosHandler.getLevelPositions(lvlEditorLayer->m_level->m_levelName);
 
@@ -44,9 +46,10 @@ protected:
             newCell->setContentSize(ccp(313, 35));
             newCell->ignoreAnchorPointForPosition(false);
             newCell->setAnchorPoint(ccp(0, 1));
-            newCell->onDelete = [this, lvlEditorLayer]() {
-                scrollLayer->m_contentLayer->removeAllChildren();
-                reloadList(lvlEditorLayer);
+            newCell->onDelete = [this, lvlEditorLayer = Ref<LevelEditorLayer>(lvlEditorLayer)]() {
+                Loader::get()->queueInMainThread([this, lvlEditorLayer = lvlEditorLayer.data()]() {
+                    reloadList(lvlEditorLayer);
+                });
             };
             newCell->onGo = [this, newCell]() {
                 this->onClose(newCell->gotoBtn);
