@@ -1,7 +1,5 @@
 #include "EditorPosHandler.hpp"
-#include "Geode/cocos/layers_scenes_transitions_nodes/CCLayer.h"
 #include <Geode/Geode.hpp>
-#include <matjson.hpp>
 
 using namespace geode::prelude;
 

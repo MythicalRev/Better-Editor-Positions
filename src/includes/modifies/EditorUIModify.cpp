@@ -1,10 +1,8 @@
 #include <Geode/Geode.hpp>
 
-#include <Geode/binding/CCMenuItemSpriteExtra.hpp>
-#include <Geode/binding/EditorUI.hpp>
 #include <Geode/modify/EditorUI.hpp>
 #include "../custom/EditorPosHandler.hpp"
-#include "../custom/EditorPosCell.hpp"
+#include "../custom/EditorPosPopup.hpp"
 
 using namespace geode::prelude;
 
@@ -20,7 +18,13 @@ class $modify(BEPEditorUI, EditorUI) {
         auto addEditorPosBtn = CCMenuItemSpriteExtra::create(addEditorPosSpr, this, menu_selector(BEPEditorUI::onPosAdded));
         addEditorPosBtn->setID("addpos-btn"_spr);
 
+        auto posMenuSpr = CCSprite::createWithSpriteFrameName("GJ_practiceBtn_001.png");
+        posMenuSpr->setScale(.7f);
+        auto posMenuBtn = CCMenuItemSpriteExtra::create(posMenuSpr, this, menu_selector(BEPEditorUI::onMenuOpened));
+        posMenuBtn->setID("posmenu-btn"_spr);
+
         this->getChildByID("settings-menu")->addChild(addEditorPosBtn);
+        this->getChildByID("settings-menu")->addChild(posMenuBtn);
         this->getChildByID("settings-menu")->updateLayout();
 
         return true;
@@ -39,18 +43,11 @@ class $modify(BEPEditorUI, EditorUI) {
         newAlert->setPositionY(120);
         newAlert->setID("newpos-alert"_spr);
         this->addChild(newAlert);
-
-        auto positions = editorPosHandler.getLevelPositions(m_editorLayer->m_level->m_levelName);
-
-        std::size_t index = 0;
-        
-        for (auto& obj : positions) {
-            auto [name, pos, zoom] = positions[index];
-
-            auto newCell = EditorPosCell::create(name, index, m_editorLayer->m_level->m_levelName, m_editorLayer->getChildByID("main-node")->getChildByID("batch-layer"));
-            this->addChild(newCell);
-
-            ++index;
-        }
     };
+
+    void onMenuOpened(CCObject* sender) {
+        auto posMenu = EditorPosPopup::create(m_editorLayer);
+        posMenu->setID("pos-menu"_spr);
+        posMenu->show();
+    }
 };

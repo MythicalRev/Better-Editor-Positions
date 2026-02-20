@@ -1,11 +1,7 @@
 #pragma once
 
 #include <Geode/Geode.hpp>
-#include <Geode/binding/CCMenuItemSpriteExtra.hpp>
 #include "EditorPosHandler.hpp"
-#include "Geode/cocos/cocoa/CCGeometry.h"
-#include "Geode/ui/Layout.hpp"
-#include "Geode/ui/TextInput.hpp"
 
 using namespace geode::prelude;
 
@@ -19,10 +15,18 @@ public:
     int cellIndex;
     CCNode* batLayer;
 
+    std::function<void()> onDelete;
+    std::function<void()> onGo;
+
     bool init(std::string posName, int posIndex, std::string levelName, CCNode* batchLayer) {
         if (!CCLayerColor::init()) return false;
 
-        this->setOpacity(100);
+        if (posIndex == 0 || (posIndex % 2) == 0) {
+            this->setOpacity(100);
+        } else {
+            this->setOpacity(50);    
+        }
+
         this->setContentSize(ccp(315, 35));
         this->setAnchorPoint(ccp(0, 1));
         this->setPositionY(207);
@@ -43,7 +47,7 @@ public:
 
         auto goBtnSpr = CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png");
         goBtnSpr->setScale(0.65f);
-        goBtnSpr->setRotation(180);
+        goBtnSpr->setFlipX(true);
         gotoBtn = CCMenuItemSpriteExtra::create(goBtnSpr, this, menu_selector(EditorPosCell::onGoToBtn));
 
         auto menuLayout = RowLayout::create();
@@ -86,7 +90,8 @@ protected:
         EditorPosHandler editorPosHandler;
 
         editorPosHandler.removePositionByIndex(cellIndex, lvlName);
-        this->removeFromParent();
+
+        if (onDelete) onDelete();
     }
 
     void onPosNameChange(const std::string& value) {
@@ -99,5 +104,7 @@ protected:
         EditorPosHandler editorPosHandler;
 
         editorPosHandler.moveToPosition(cellIndex, lvlName, batLayer);
+
+        if (onGo) onGo();
     }
 };
