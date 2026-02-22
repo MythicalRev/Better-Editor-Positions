@@ -10,7 +10,7 @@
 	"name": "Better Editor Positions",
 	"version": "v1.0.0",
 	"developer": "MythicalRev",
-	"description": "improves the saved editor positions",
+	"description": "Improves the saved editor positions",
 	"dependencies": {
 		"geode.node-ids": ">=v1.20.0"
 	}

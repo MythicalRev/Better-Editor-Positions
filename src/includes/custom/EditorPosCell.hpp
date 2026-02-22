@@ -11,6 +11,7 @@ public:
     CCMenuItemSpriteExtra* deleteBtn;
     TextInput* nameInput;
 
+    std::string cellPosName;
     std::string lvlName;
     int cellIndex;
     CCNode* batLayer;
@@ -71,6 +72,7 @@ public:
         lvlName = levelName;
         cellIndex = posIndex;
         batLayer = batchLayer;
+        cellPosName = posName;
 
         return true;
     }

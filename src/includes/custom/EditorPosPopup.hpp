@@ -18,7 +18,10 @@ protected:
         scrollLayer->ignoreAnchorPointForPosition(false);
         scrollLayer->setAnchorPoint(ccp(0.5, 0.5));
 
-        m_mainLayer->addChildAtPosition(scrollLayer, Anchor::Center, ccp(0, -10));
+        auto border = Border::create(scrollLayer, {0, 0, 0, 60}, ccp(313, 210));
+        border->ignoreAnchorPointForPosition(false);
+        border->setAnchorPoint(ccp(0.5, 0.5));
+        m_mainLayer->addChildAtPosition(border, Anchor::Center, ccp(0, -10));
 
         auto layout = ColumnLayout::create();
         layout->setAxisReverse(true);
@@ -51,8 +54,14 @@ protected:
                     reloadList(lvlEditorLayer);
                 });
             };
-            newCell->onGo = [this, newCell]() {
+            newCell->onGo = [this, newCell, name, lvlEditorLayer]() {
                 this->onClose(newCell->gotoBtn);
+
+                auto newAlert = TextAlertPopup::create("Moved to Position: " + name, 2, .5f, 0, "bigFont.fnt");
+
+                newAlert->setPositionY(120);
+                newAlert->setID("newpos-alert"_spr);
+                lvlEditorLayer->addChild(newAlert);
             };
 
             scrollLayer->m_contentLayer->addChild(newCell);

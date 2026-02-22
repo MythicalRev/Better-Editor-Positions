@@ -3,6 +3,7 @@
 #include <Geode/modify/EditorUI.hpp>
 #include "../custom/EditorPosHandler.hpp"
 #include "../custom/EditorPosPopup.hpp"
+#include "../custom/PosNamePopup.hpp"
 
 using namespace geode::prelude;
 
@@ -19,7 +20,7 @@ class $modify(BEPEditorUI, EditorUI) {
         addEditorPosBtn->setID("addpos-btn"_spr);
 
         auto posMenuSpr = CCSprite::createWithSpriteFrameName("GJ_practiceBtn_001.png");
-        posMenuSpr->setScale(.7f);
+        posMenuSpr->setScale(.6f);
         auto posMenuBtn = CCMenuItemSpriteExtra::create(posMenuSpr, this, menu_selector(BEPEditorUI::onMenuOpened));
         posMenuBtn->setID("posmenu-btn"_spr);
 
@@ -38,11 +39,9 @@ class $modify(BEPEditorUI, EditorUI) {
 
         editorPosHandler.createNewPosition(currentPos, zoom, m_editorLayer->m_level->m_levelName);
 
-        auto newAlert = TextAlertPopup::create("Created New Position", 2, .5f, 0, "bigFont.fnt");
-
-        newAlert->setPositionY(120);
-        newAlert->setID("newpos-alert"_spr);
-        this->addChild(newAlert);
+        auto namePopup = PosNamePopup::create(m_editorLayer->m_level->m_levelName);
+        namePopup->show();
+        namePopup->setID("rename-menu"_spr);
     };
 
     void onMenuOpened(CCObject* sender) {

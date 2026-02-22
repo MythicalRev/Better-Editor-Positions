@@ -1,3 +1,8 @@
-# Template Mod
+# Better Editor Positions
+Improves the saved editor position system with UI
 
-Edit about.md to change this
+# Support
+You can contact me on discord: @mythicalrev if there are any issues
+
+# License
+This mod is licensed under the MIT License.
