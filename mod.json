@@ -1,5 +1,5 @@
 {
-	"geode": "5.0.0-beta.3",
+	"geode": "5.0.0-beta.4",
 	"gd": {
 		"win": "2.2081",
 		"android": "2.2081",
@@ -13,5 +13,13 @@
 	"description": "Improves the saved editor positions",
 	"dependencies": {
 		"geode.node-ids": ">=v1.20.0"
+	},
+	"tags": [
+		"enhancement",
+		"utility",
+		"editor"
+	],
+	"links": {
+		"source": "https://github.com/MythicalRev/Better-Editor-Positions"
 	}
 }
