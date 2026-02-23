@@ -8,7 +8,7 @@
 	},
 	"id": "mythicalrev.better-editor-positions",
 	"name": "Better Editor Positions",
-	"version": "v1.0.0",
+	"version": "v1.0.1",
 	"developer": "MythicalRev",
 	"description": "Improves the saved editor positions",
 	"dependencies": {
