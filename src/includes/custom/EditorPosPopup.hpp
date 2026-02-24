@@ -18,6 +18,10 @@ protected:
         scrollLayer->ignoreAnchorPointForPosition(false);
         scrollLayer->setAnchorPoint(ccp(0.5, 0.5));
 
+        auto testBorder = ListBorders::create();
+        testBorder->setContentSize(CCSize(100,100));
+        this->addChild(testBorder);
+
         auto border = Border::create(scrollLayer, {0, 0, 0, 60}, ccp(313, 210));
         border->ignoreAnchorPointForPosition(false);
         border->setAnchorPoint(ccp(0.5, 0.5));
