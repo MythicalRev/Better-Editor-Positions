@@ -11,7 +11,7 @@ protected:
     TextInput* posNameInput;
 
     bool init(std::string levelName) {
-        if (!Popup::init(200, 125))
+        if (!Popup::init(200, 100))
             return false;
         
         this->m_closeBtn->setVisible(false);
@@ -21,12 +21,6 @@ protected:
         auto layout = ColumnLayout::create();
         layout->setGap(5);
         layout->setAxisReverse(true);
-        
-        auto menu = CCMenu::create();
-        menu->setAnchorPoint(ccp(0.5,0.5));
-        menu->ignoreAnchorPointForPosition(false);
-
-        this->m_mainLayer->addChildAtPosition(menu, Anchor::Center, ccp(0, -10));
 
         posNameInput = TextInput::create(180, "Position Name");
         posNameInput->setTextAlign(TextInputAlign::Center);
@@ -35,13 +29,21 @@ protected:
         posNameInput->ignoreAnchorPointForPosition(false);
 
         auto confirmBtnSpr = ButtonSprite::create("Confirm");
+        confirmBtnSpr->setScale(0.7f);
 
         auto confirmBtn = CCMenuItemSpriteExtra::create(confirmBtnSpr, this, menu_selector(PosNamePopup::onConfirm));
         confirmBtn->setAnchorPoint(ccp(0.5,0.5));
         confirmBtn->ignoreAnchorPointForPosition(false);
 
-        menu->addChildAtPosition(posNameInput, Anchor::Center);
-        menu->addChildAtPosition(confirmBtn, Anchor::Center);
+        auto menu = CCMenu::create();
+        menu->setAnchorPoint(ccp(0.5,1));
+        menu->setContentHeight(confirmBtn->getContentHeight());
+        menu->ignoreAnchorPointForPosition(false);
+
+        this->m_mainLayer->addChildAtPosition(menu, Anchor::Bottom, ccp(0,30));
+
+        this->m_mainLayer->addChildAtPosition(posNameInput, Anchor::Center);
+        menu->addChildAtPosition(confirmBtn, Anchor::Bottom);
 
         menu->setLayout(layout);
         menu->updateLayout();

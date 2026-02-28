@@ -37,7 +37,8 @@ public:
         nameInput->setTextAlign(TextInputAlign::Left);
         nameInput->setString(posName);
         nameInput->setAnchorPoint(ccp(0,0.5f));
-        nameInput->setPosition(ccp(5, this->getContentHeight() / 2));
+        nameInput->setScale(0.8f);
+        nameInput->setPosition(ccp(10, this->getContentHeight() / 2));
         nameInput->setCallback([this](const std::string& value) {
             onPosNameChange(value);
         });
@@ -57,7 +58,7 @@ public:
         auto leftMenu = CCMenu::createWithItem(gotoBtn);
         leftMenu->setAnchorPoint(ccp(1, 0.5f));
         leftMenu->ignoreAnchorPointForPosition(false);
-        leftMenu->setPosition(CCPoint(this->getContentWidth() - 5,this->getContentHeight()/ 2));
+        leftMenu->setPosition(CCPoint(this->getContentWidth() - 10,this->getContentHeight()/ 2));
         leftMenu->setContentSize(CCSize(100, 30));
 
         leftMenu->addChild(deleteBtn);

@@ -3,6 +3,7 @@
 #include <Geode/Geode.hpp>
 #include "EditorPosHandler.hpp"
 #include "EditorPosCell.hpp"
+#include "Geode/cocos/layers_scenes_transitions_nodes/CCLayer.h"
 
 using namespace geode::prelude;
 
@@ -14,14 +15,25 @@ protected:
 
         this->setTitle("Saved Positions");
 
+        auto scrollLayerBG = CCLayerColor::create({0, 0, 0, 60}, 313, 210);
+        scrollLayerBG->ignoreAnchorPointForPosition(false);
+        scrollLayerBG->setAnchorPoint(ccp(0.5, 0.5));
+
         scrollLayer = ScrollLayer::create(ccp(313, 210));
         scrollLayer->ignoreAnchorPointForPosition(false);
         scrollLayer->setAnchorPoint(ccp(0.5, 0.5));
 
-        auto border = Border::create(scrollLayer, {0, 0, 0, 60}, ccp(313, 210));
+        auto scrollBar = Scrollbar::create(scrollLayer);
+
+        auto border = ListBorders::create();
+        border->setContentSize(ccp(313, 210));
         border->ignoreAnchorPointForPosition(false);
         border->setAnchorPoint(ccp(0.5, 0.5));
+
+        m_mainLayer->addChildAtPosition(scrollLayerBG, Anchor::Center, ccp(0, -10));
+        m_mainLayer->addChildAtPosition(scrollLayer, Anchor::Center, ccp(0, -10));
         m_mainLayer->addChildAtPosition(border, Anchor::Center, ccp(0, -10));
+        m_mainLayer->addChildAtPosition(scrollBar, Anchor::Center, ccp(162.5, -10));
 
         auto layout = ColumnLayout::create();
         layout->setAxisReverse(true);
